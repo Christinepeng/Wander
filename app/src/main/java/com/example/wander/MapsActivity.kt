@@ -40,13 +40,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val latitude = 37.4222359923114
         val longitude = -122.08412188838841
-        val zoomLevel = 15f
+        val zoomLevel = 14f
 
         val homeLatLng = LatLng(latitude, longitude)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
         map.addMarker(MarkerOptions().position(homeLatLng))
 
         setMapLongClick(map)
+        setPoiClick(map)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -92,6 +93,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             .snippet(snippet)
 
             )
+        }
+    }
+
+    private fun setPoiClick(map: GoogleMap) {
+        map.setOnPoiClickListener { poi ->
+            val poiMarker = map.addMarker(
+                    MarkerOptions()
+                            .position(poi.latLng)
+                            .title(poi.name)
+            )
+            poiMarker.showInfoWindow()
         }
     }
 }
